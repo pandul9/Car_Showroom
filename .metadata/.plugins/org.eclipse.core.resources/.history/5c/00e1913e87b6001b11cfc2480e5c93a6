@@ -1,0 +1,36 @@
+package application;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+
+public class Client_contract {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button accept;
+
+    @FXML
+    private TextArea inf_con;
+
+    @FXML
+    private Button details;
+    
+    @FXML
+    private Button decline;
+
+    @FXML
+    void initialize() {
+    	DataBaseHandler dbHandler = new DataBaseHandler();
+    	details.setOnAction(event ->{
+    		dbHandler.getTable("client_has_car");
+    	});
+    }
+}

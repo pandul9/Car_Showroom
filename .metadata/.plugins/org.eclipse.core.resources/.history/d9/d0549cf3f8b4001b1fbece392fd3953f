@@ -1,0 +1,11 @@
+package application;
+
+import javafx.animation.TranslateTransition;
+
+public class Shake {
+	private TranslateTransition TT;
+	
+	public Shake(Node node) {
+		TT= new TranslateTransition(Duration.mills(70), node)
+	}
+}

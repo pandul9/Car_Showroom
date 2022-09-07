@@ -1,0 +1,8 @@
+package application;
+
+public abstract class connect {
+	public static String client_id;
+	public static String car_id;
+	public static String car_price;
+	public static String car_category_name;
+}

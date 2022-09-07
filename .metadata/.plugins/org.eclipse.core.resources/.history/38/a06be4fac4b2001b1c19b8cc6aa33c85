@@ -1,0 +1,71 @@
+package application;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+public class Administrator_in {
+	 @FXML
+	 private Button admin_stat;
+	 
+	 @FXML
+	 private Button admin_in;
+	 
+	 @FXML
+	 private PasswordField pass_adm;
+
+	 @FXML
+	 private TextField login_adm;	
+	 //Вход администратора
+	 void initialize() {
+		 admin_stat.setOnAction(event ->{
+		 String loginText = login_adm.getText().trim();
+		 String loginPass = pass_adm.getText().trim();
+		 
+		 if (!loginText.equals("") && !loginPass.equals(""))
+			 loginUser(loginText, loginPass);
+		 else 
+			 System.out.println("Empty!");
+	 	 });
+	 }
+	
+	 String id_adm = login_adm.getText();
+	 String pass = pass_adm.getText();
+	 Employee employee = new Employee(id_adm, pass);
+	 private void loginUser(String loginText, String loginPass) {
+		DataBaseHandler dbHandler = new DataBaseHandler();
+		Employee employee = new Employee();
+		employee.setId(loginText);
+		employee.setPassword(loginPass);
+		ResultSet resultSet= dbHandler.getAdm(employee);
+		
+		try {
+			if (resultSet.next())
+				System.out.println("Succes!");
+			else 
+				System.out.println("Nothing!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	 }
+
+	  public void admin_statistic () throws Exception {
+		 	Parent root = FXMLLoader.load(getClass().getResource("Administrator_statistic.fxml"));
+		 	Stage window=(Stage) admin_stat.getScene().getWindow();
+		 	window.setScene(new Scene(root));
+		 }
+	  
+	  public void admin_in () throws Exception {
+	    	Parent root = FXMLLoader.load(getClass().getResource("Administrator_in.fxml"));
+	        Stage window=(Stage) admin_in.getScene().getWindow();
+	        window.setScene(new Scene(root));
+	    }
+}

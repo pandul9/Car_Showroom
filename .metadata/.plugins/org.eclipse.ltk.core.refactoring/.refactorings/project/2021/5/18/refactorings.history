@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;project/src/application/Sample.fxml&apos; to &apos;First_in.fxml&apos;" description="Rename resource &apos;Sample.fxml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/application/Sample.fxml" name="First_in.fxml" stamp="1620591159942" updateReferences="true"/>
+</session>

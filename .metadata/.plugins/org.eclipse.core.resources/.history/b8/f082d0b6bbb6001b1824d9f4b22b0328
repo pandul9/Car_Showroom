@@ -1,0 +1,114 @@
+package application;
+
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
+public class Admin_stat {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button show_stat;
+
+    @FXML
+    private TextArea stat_full;
+
+    @FXML
+    private Button show_emp;
+    
+    @FXML
+    private Button main_menu;
+    
+    @FXML
+    private Button delete;
+
+    @FXML
+    void initialize() {
+    	
+    	show_emp.setOnAction(event ->{
+        	try {
+        		DataBaseHandler dbh = new DataBaseHandler();
+            	ResultSet result = dbh.getTable("employee");
+				stat_full.setText(showData(result));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        });
+    	
+    	show_stat.setOnAction(event ->{
+			try {
+				DataBaseHandler dbh_1 = new DataBaseHandler();
+	        	ResultSet result = dbh_1.getTable("contract");
+				stat_full.setText(showData(result));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+    	});
+    	
+    	main_menu.setOnAction(event ->{
+    		try {
+				menu();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        });
+    	
+    	delete.setOnAction(event ->{
+    		if (!(Const.CONTRACT_SUM==null)) {
+    			DataBaseHandler dbHandler=new DataBaseHandler();
+    			DataBaseHandler dbHandler1=new DataBaseHandler();
+        		dbHandler.deletePurch();
+        		stat_full.setText("Deleted");
+        		dbHandler1.deleteCHC();
+        		
+    		}
+    			stat_full.setText("Empty!");
+    	});
+    }
+   
+    private String showData(ResultSet result) throws SQLException {
+            ResultSetMetaData rsmd = result.getMetaData();
+            int numberOfColumns = rsmd.getColumnCount();
+            String text  = "";
+            for (int i = 1; i < numberOfColumns + 1; i++) { //получаем названия столбцов
+                String columnName = rsmd.getColumnName(i);
+                text = text + columnName + ", ";
+            }
+            text = text + "\n";
+            while(result.next()) { //получаем данные из строк таблицы
+
+                for(int i =0; i<numberOfColumns; i++) {
+                    if(i+1 == numberOfColumns) {;
+                        text = text + result.getString(i+1) + "\n";
+                    }
+                    else {
+                        text += result.getString(i+1) + ", ";
+                    }
+                }
+            }
+            return text;
+    }
+    
+    public void menu () throws Exception {
+    	Parent root = FXMLLoader.load(getClass().getResource("First_in.fxml"));
+        Stage window=(Stage) main_menu.getScene().getWindow();
+        window.setScene(new Scene(root));
+    }
+}

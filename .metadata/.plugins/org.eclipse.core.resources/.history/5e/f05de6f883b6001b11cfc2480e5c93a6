@@ -1,0 +1,33 @@
+package application;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+
+public class Client_contract {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button accept;
+
+    @FXML
+    private TextArea inf_con;
+
+    @FXML
+    private Button details;
+
+    @FXML
+    void initialize() {
+        assert accept != null : "fx:id=\"accept\" was not injected: check your FXML file 'Client_contract.fxml'.";
+        assert inf_con != null : "fx:id=\"inf_con\" was not injected: check your FXML file 'Client_contract.fxml'.";
+        assert details != null : "fx:id=\"details\" was not injected: check your FXML file 'Client_contract.fxml'.";
+
+    }
+}

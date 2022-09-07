@@ -1,0 +1,61 @@
+package application;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
+public class Client_adds extends connect {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button tires;
+
+    @FXML
+    private Button camera;
+
+    @FXML
+    private Button interior;
+
+    @FXML
+    private Button color;
+
+    @FXML
+    private Button nothing;
+
+    @FXML
+    private Button next_scene;
+
+    @FXML
+    void initialize() {
+    	tires.setOnAction(event ->{
+    		adds_name="Tires";
+    		adds_price="80000";
+        });
+    	
+    	camera.setOnAction(event ->{
+    		car_id="1";
+    		car_price="900000";
+        });
+    	
+    	interior.setOnAction(event ->{
+    		car_id="1";
+    		car_price="900000";
+        });
+    	
+    	color.setOnAction(event ->{
+    		car_id="1";
+    		car_price="900000";
+        });
+    	
+    	nothing.setOnAction(event ->{
+    		car_id="1";
+    		car_price="900000";
+        });
+    }
+}

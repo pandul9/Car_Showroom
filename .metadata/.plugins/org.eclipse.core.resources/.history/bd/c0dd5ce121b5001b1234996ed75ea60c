@@ -1,0 +1,30 @@
+package application;
+
+public class Client {
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Client(String id, String telephone) {
+		super();
+		this.id = id;
+		this.telephone = telephone;
+	}
+	
+	public Client() {
+		// TODO Auto-generated constructor stub
+	}
+
+	private String id;
+	private String telephone;
+	
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+}

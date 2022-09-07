@@ -1,0 +1,121 @@
+package application;
+
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
+public class Car_comfort extends connect {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private TextArea infowind;
+
+    @FXML
+    private Button inf;
+
+    @FXML
+    private Button kia;
+
+    @FXML
+    private Button scoda;
+
+    @FXML
+    private Button client_choose_car;
+    
+    @FXML
+    private Button back;
+
+    @FXML
+    void initialize() {
+    	kia.setDisable(false);
+    	scoda.setDisable(false);
+    	inf.setOnAction(event ->{
+        	try {
+        		DataBaseHandler dbh = new DataBaseHandler();
+            	ResultSet result = dbh.getTableComfort("car");
+            	//ResultSet result = dbh.getTable("car");
+            	infowind.setText(showData(result));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        });
+    	
+    	kia.setOnAction(event ->{
+    		car_id="3";
+    		car_price=1700000;
+    		scoda.setDisable(true);
+        });
+    	
+    	scoda.setOnAction(event ->{
+    		car_id="4";
+    		car_price=1473000;
+        });
+    	
+    	client_choose_car.setOnAction(event ->{
+    		try {
+    			client_adds();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        });
+    	
+    	back.setOnAction(event ->{
+    		try {
+				back_cat();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        });
+
+    }
+    
+    private String showData(ResultSet result) throws SQLException {
+        ResultSetMetaData rsmd = result.getMetaData();
+        int numberOfColumns = rsmd.getColumnCount();
+        String text  = "";
+        for (int i = 1; i < numberOfColumns + 1; i++) { //получаем названия столбцов
+            String columnName = rsmd.getColumnName(i);
+            text = text + columnName + ", ";
+        }
+        text = text + "\n";
+        while(result.next()) { //получаем данные из строк таблицы
+
+            for(int i =0; i<numberOfColumns; i++) {
+                if(i+1 == numberOfColumns) {;
+                    text = text + result.getString(i+1) + "\n";
+                }
+                else {
+                    text += result.getString(i+1) + ", ";
+                }
+            }
+        }
+        return text;
+    }
+    
+    public void client_adds () throws Exception {
+    	Parent root = FXMLLoader.load(getClass().getResource("Client_add_services.fxml"));
+    	Stage window=(Stage) client_choose_car.getScene().getWindow();
+    	window.setScene(new Scene(root));
+    }
+    
+    public void back_cat () throws Exception {
+    	Parent root = FXMLLoader.load(getClass().getResource("Client_category.fxml"));
+    	Stage window=(Stage) back.getScene().getWindow();
+    	window.setScene(new Scene(root));
+    }
+}

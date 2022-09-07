@@ -1,0 +1,268 @@
+package application;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class DataBaseHandler extends Configs {
+	Connection dbConnection;
+	public Connection getDbConnection() throws ClassNotFoundException, SQLException {
+		String connectionString = "jdbc:mysql://" +dbHoSt + ":" + dbPort + "/" + dbName;
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);
+		return dbConnection;
+	}
+	//администратор вход
+	public ResultSet getAdm(Employee employee) {
+		ResultSet resSet = null;
+		String select = "SELECT * FROM " + Const.EMPLOYEE_TABLE + " WHERE " +
+				Const.EMPLOYEE_ID + "=? AND " + Const.EMPLOYEE_PASSWORD + "=?";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(select);
+			prSt.setString(1, employee.getId());
+			prSt.setString(2, employee.getPassword());
+			
+			resSet = prSt.executeQuery();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return resSet;
+	}
+	//категория машин
+	public ResultSet getTableCategory(String name) {
+        ResultSet resSet=null;
+        String select = "SELECT " + Const.CATEGORY_NAME + " FROM "+ Const.CATEGORY_TABLE +";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	
+	public ResultSet getTableEconomy(String name) {
+        ResultSet resSet=null;
+        String select = "SELECT * FROM " + name + " WHERE "+ Const.CAR_CATEGORY + "= 'Economy'" + ";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	
+	public ResultSet getTableComfort(String name) {
+        ResultSet resSet=null;
+        String select = "SELECT * FROM " + name + " WHERE "+ Const.CAR_CATEGORY + "= 'Comfort'" + ";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	
+	public ResultSet getTablePremium(String name) {
+        ResultSet resSet=null;
+        String select = "SELECT * FROM " + name + " WHERE "+ Const.CAR_CATEGORY + "= 'Premium'" + ";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	
+	//получение таблицы
+	public ResultSet getTable(String name) {
+        ResultSet resSet=null;
+        String select = "SELECT * FROM "+ name +";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	public void signUpClient(String idText, String telText, String firstName, String middleName, String lastName,
+			String emailText) {
+		String insert = "INSERT INTO " + Const.CLIENT_TABLE + " VALUES(?,?,?,?,?,?)" + ";";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(insert);
+			prSt.setString(1, idText);
+			prSt.setString(2, telText);
+			prSt.setString(3, firstName);
+			prSt.setString(4, middleName);
+			prSt.setString(5, lastName);
+			prSt.setString(6, emailText);
+			
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void chsIns() {
+		String insert = "INSERT INTO " + Const.CHC_TABLE + " VALUES(?,?,?,?,?,?)" + ";";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(insert);
+			prSt.setString(1, client_id);
+			prSt.setString(2, car_id);
+			prSt.setLong(3, car_price);
+			prSt.setString(4, car_category_name);
+			prSt.setLong(5, adds_price);
+			prSt.setString(6, adds_name);
+			
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void contractIns() {
+		String insert = "INSERT INTO " + Const.CONTRACT_TABLE + " VALUES(?,?,?,?,?,?,?,?)" + ";";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(insert);
+			prSt.setLong(1, sum);
+			prSt.setString(2, admin_id);
+			prSt.setString(3, client_id);
+			prSt.setString(4, car_id);
+			prSt.setLong(5, car_price);
+			prSt.setString(6, car_category_name);
+			prSt.setLong(7, adds_price);
+			prSt.setString(8, adds_name);
+			
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deletePurch() {
+		String delete = "DELETE FROM "+ Const.CONTRACT_TABLE +";";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(delete);
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deleteCHC() {
+		String delete = "DELETE FROM "+ Const.CHC_TABLE +";";
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(delete);
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void minusStock() {
+		String insert = "UPDATE "+Const.CAR_TABLE + " SET " + Const.CAR_INSTOCK + " = " + Const.CAR_INSTOCK + "-1 " + " WHERE " + Const.CAR_ID + " = " + car_id;
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(insert);
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void plusStock() {
+		String insert = "UPDATE "+Const.CAR_TABLE + " SET " + Const.CAR_INSTOCK + " = " + Const.CAR_INSTOCK + "+1 " + " WHERE " + Const.CAR_ID + " = " + car_id;
+		PreparedStatement prSt;
+		try {
+			prSt = getDbConnection().prepareStatement(insert);
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ResultSet checkCount() {
+        ResultSet resSet=null;
+        String select = "SELECT count(*) FROM "+ Const.CONTRACT_TABLE +";";
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(select);
+            resSet=prSt.executeQuery();
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+        return resSet;
+    }
+	
+}

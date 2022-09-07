@@ -1,0 +1,36 @@
+package application;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+
+public class Car_premium {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private TextArea infowind;
+
+    @FXML
+    private Button inf;
+
+    @FXML
+    private Button Merc;
+
+    @FXML
+    private Button bmw;
+
+    @FXML
+    private Button client_choose_car;
+
+    @FXML
+    void initialize() {
+        
+    }
+}
